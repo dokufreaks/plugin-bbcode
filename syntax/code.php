@@ -1,0 +1,54 @@
+<?php
+/**
+ * BBCode plugin: allows BBCode markup familiar from forum software
+ * 
+ * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Esther Brunner <esther@kaffeehaus.ch>
+ */
+ 
+if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
+if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
+require_once(DOKU_PLUGIN.'syntax.php');
+ 
+/**
+ * All DokuWiki plugins to extend the parser/rendering mechanism
+ * need to inherit from this class
+ */
+class syntax_plugin_bbcode_code extends DokuWiki_Syntax_Plugin {
+ 
+    /**
+     * return some info
+     */
+    function getInfo(){
+        return array(
+            'author' => 'Esther Brunner',
+            'email'  => 'esther@kaffeehaus.ch',
+            'date'   => '2005-08-05',
+            'name'   => 'BBCode Code Plugin',
+            'desc'   => 'allows BBCode markup: [code]text[/code]',
+            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
+        );
+    }
+ 
+    function getType(){ return 'protected'; }
+    function getPType(){ return 'block'; }
+    function getSort(){ return 105; }
+    function connectTo($mode) { $this->Lexer->addEntryPattern('\[code\](?=.*?\x5B/code\x5D)',$mode,'preformatted'); }
+    function postConnect() { $this->Lexer->addExitPattern('\[/code\]','preformatted'); }
+
+    /**
+     * Handle the match
+     */
+    function handle($match, $state, $pos, &$handler){
+        return true;
+    }
+ 
+    /**
+     * Create output
+     */
+    function render($mode, &$renderer, $data) {
+        return true;
+    }
+}
+     
+//Setup VIM: ex: et ts=4 enc=utf-8 :
