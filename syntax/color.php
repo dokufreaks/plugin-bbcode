@@ -22,9 +22,9 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
      */
     function getInfo(){
         return array(
-            'author' => 'Esther Brunner',
-            'email'  => 'esther@kaffeehaus.ch',
-            'date'   => '2005-08-05',
+            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
+            'email'  => 'dokuwiki@chimeric.de',
+            'date'   => '2008-02-11',
             'name'   => 'BBCode Color Plugin',
             'desc'   => 'allows BBCode markup: [color=*]text[/color]',
             'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
