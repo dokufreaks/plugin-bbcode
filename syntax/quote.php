@@ -19,7 +19,7 @@ class syntax_plugin_bbcode_quote extends DokuWiki_Syntax_Plugin {
     /**
      * return some info
      */
-    function getInfo(){
+    function getInfo() {
         return array(
             'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
             'email'  => 'dokuwiki@chimeric.de',
@@ -30,10 +30,10 @@ class syntax_plugin_bbcode_quote extends DokuWiki_Syntax_Plugin {
         );
     }
  
-    function getType(){ return 'container'; }
-    function getPType(){ return 'block'; }
+    function getType() { return 'container'; }
+    function getPType() { return 'block'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled', 'protected'); }   
-    function getSort(){ return 105; }
+    function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addEntryPattern('\[quote.*?\](?=.*?\x5B/quote\x5D)',$mode,'plugin_bbcode_quote'); }
     function postConnect() { $this->Lexer->addExitPattern('\[/quote\]','plugin_bbcode_quote'); }
  
@@ -41,7 +41,7 @@ class syntax_plugin_bbcode_quote extends DokuWiki_Syntax_Plugin {
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, &$handler){        
+    function handle($match, $state, $pos, &$handler) {        
         switch ($state) {
           case DOKU_LEXER_ENTER :
             $match = explode('"',substr($match, 6, -1));
@@ -61,7 +61,7 @@ class syntax_plugin_bbcode_quote extends DokuWiki_Syntax_Plugin {
      * Create output
      */
     function render($mode, &$renderer, $data) {
-        if($mode == 'xhtml'){
+        if($mode == 'xhtml') {
             list($state, $match) = $data;
             switch ($state) {
               case DOKU_LEXER_ENTER :
@@ -85,5 +85,4 @@ class syntax_plugin_bbcode_quote extends DokuWiki_Syntax_Plugin {
     }
     
 }
- 
-//Setup VIM: ex: et ts=4 enc=utf-8 :
+//vim:ts=4:sw=4:et:enc=utf-8:     

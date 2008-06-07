@@ -20,7 +20,7 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
     /**
      * return some info
      */
-    function getInfo(){
+    function getInfo() {
         return array(
             'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
             'email'  => 'dokuwiki@chimeric.de',
@@ -31,9 +31,9 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
         );
     }
  
-    function getType(){ return 'formatting'; }
+    function getType() { return 'formatting'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }   
-    function getSort(){ return 105; }
+    function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addEntryPattern('\[color=.*?\](?=.*?\x5B/color\x5D)',$mode,'plugin_bbcode_color'); }
     function postConnect() { $this->Lexer->addExitPattern('\[/color\]','plugin_bbcode_color'); }
  
@@ -41,7 +41,7 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, &$handler){
+    function handle($match, $state, $pos, &$handler) {
         switch ($state) {
           case DOKU_LEXER_ENTER :
             $match = substr($match, 7, -1);
@@ -61,7 +61,7 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
      * Create output
      */
     function render($mode, &$renderer, $data) {
-        if($mode == 'xhtml'){
+        if($mode == 'xhtml') {
             list($state, $match) = $data;
             switch ($state) {
               case DOKU_LEXER_ENTER :      
@@ -92,7 +92,7 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
         $pattern = "/
             ([a-zA-z]+)|                                #colorname - not verified
             (\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}))|        #colorvalue
-            (rgb\(([0-9]{1,3}%?,){2}[0-9]{1,3}%?\))     #rgb triplet
+            (rgb\(([0-9]{1,3}%?,) {2}[0-9]{1,3}%?\))     #rgb triplet
             /x";
         
         if (preg_match($pattern, $c)) return $c;
@@ -100,5 +100,4 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
         return "";
     }
 }
- 
-//Setup VIM: ex: et ts=4 enc=utf-8 :
+//vim:ts=4:sw=4:et:enc=utf-8:     

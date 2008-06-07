@@ -19,7 +19,7 @@ class syntax_plugin_bbcode_bold extends DokuWiki_Syntax_Plugin {
     /**
      * return some info
      */
-    function getInfo(){
+    function getInfo() {
         return array(
             'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
             'email'  => 'dokuwiki@chimeric.de',
@@ -30,16 +30,16 @@ class syntax_plugin_bbcode_bold extends DokuWiki_Syntax_Plugin {
         );
     }
  
-    function getType(){ return 'formatting'; }
+    function getType() { return 'formatting'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }   
-    function getSort(){ return 105; }
+    function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addEntryPattern('\[b\](?=.*?\x5B/b\x5D)',$mode,'strong'); }
     function postConnect() { $this->Lexer->addExitPattern('\[/b\]','strong'); }
 
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, &$handler){
+    function handle($match, $state, $pos, &$handler) {
         return array();
     }
  
@@ -50,5 +50,4 @@ class syntax_plugin_bbcode_bold extends DokuWiki_Syntax_Plugin {
         return true;
     }
 }
-     
-//Setup VIM: ex: et ts=4 enc=utf-8 :
+//vim:ts=4:sw=4:et:enc=utf-8:     

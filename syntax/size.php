@@ -19,7 +19,7 @@ class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
     /**
      * return some info
      */
-    function getInfo(){
+    function getInfo() {
         return array(
             'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
             'email'  => 'dokuwiki@chimeric.de',
@@ -30,9 +30,9 @@ class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
         );
     }
  
-    function getType(){ return 'formatting'; }
+    function getType() { return 'formatting'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }   
-    function getSort(){ return 105; }
+    function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addEntryPattern('\[size=.*?\](?=.*?\x5B/size\x5D)',$mode,'plugin_bbcode_size'); }
     function postConnect() { $this->Lexer->addExitPattern('\[/size\]','plugin_bbcode_size'); }
  
@@ -40,7 +40,7 @@ class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, &$handler){
+    function handle($match, $state, $pos, &$handler) {
         switch ($state) {
           case DOKU_LEXER_ENTER :
             $match = substr($match, 6, -1);
@@ -61,7 +61,7 @@ class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
      * Create output
      */
     function render($mode, &$renderer, $data) {
-        if($mode == 'xhtml'){
+        if($mode == 'xhtml') {
             list($state, $match) = $data;
             switch ($state) {
               case DOKU_LEXER_ENTER :      
@@ -82,5 +82,4 @@ class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
         return false;
     }
 }
-     
-//Setup VIM: ex: et ts=4 enc=utf-8 :
+//vim:ts=4:sw=4:et:enc=utf-8:     
