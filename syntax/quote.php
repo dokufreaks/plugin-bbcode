@@ -85,4 +85,4 @@ class syntax_plugin_bbcode_quote extends DokuWiki_Syntax_Plugin {
     }
     
 }
-//vim:ts=4:sw=4:et:enc=utf-8:     
+// vim:ts=4:sw=4:et:enc=utf-8:     
