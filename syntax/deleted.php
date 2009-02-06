@@ -25,7 +25,7 @@ class syntax_plugin_bbcode_deleted extends DokuWiki_Syntax_Plugin {
             'email'  => 'dokuwiki@chimeric.de',
             'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
             'name'   => 'BBCode Deleted Plugin',
-            'desc'   => 'allows BBCode markup: [d]text[/d]',
+            'desc'   => 'allows BBCode markup: [s]text[/s]',
             'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
         );
     }
