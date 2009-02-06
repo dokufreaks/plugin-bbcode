@@ -23,7 +23,7 @@ class syntax_plugin_bbcode_olist extends DokuWiki_Syntax_Plugin {
         return array(
             'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
             'email'  => 'dokuwiki@chimeric.de',
-            'date'   => '2008-02-11',
+            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
             'name'   => 'BBCode Ordered List Plugin',
             'desc'   => 'allows BBCode markup: [list=*][*]item[*]item[/list]',
             'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',

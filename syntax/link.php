@@ -23,7 +23,7 @@ class syntax_plugin_bbcode_link extends DokuWiki_Syntax_Plugin {
         return array(
             'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
             'email'  => 'dokuwiki@chimeric.de',
-            'date'   => '2008-02-11',
+            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
             'name'   => 'BBCode Link Plugin',
             'desc'   => 'allows BBCode markup: [url=*]title[/url]',
             'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
