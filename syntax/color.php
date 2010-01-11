@@ -92,7 +92,7 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
         $pattern = "/
             ([a-zA-z]+)|                                #colorname - not verified
             (\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}))|        #colorvalue
-            (rgb\(([0-9]{1,3}%?,) {2}[0-9]{1,3}%?\))     #rgb triplet
+            (rgb\(([0-9]{1,3}%?,){2}[0-9]{1,3}%?\))     #rgb triplet
             /x";
         
         if (preg_match($pattern, $c)) return $c;
