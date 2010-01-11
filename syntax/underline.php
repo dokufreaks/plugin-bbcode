@@ -16,20 +16,6 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_underline extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo(){
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode Underline Plugin',
-            'desc'   => 'allows BBCode markup: [u]text[/u]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
     function getType(){ return 'formatting'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }   
     function getSort(){ return 105; }
@@ -50,5 +36,4 @@ class syntax_plugin_bbcode_underline extends DokuWiki_Syntax_Plugin {
         return true;
     }
 }
-     
-//Setup VIM: ex: et ts=4 enc=utf-8 :
+// vim:ts=4:sw=4:et:enc=utf-8: 

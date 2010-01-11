@@ -16,20 +16,6 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_code extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode Code Plugin',
-            'desc'   => 'allows BBCode markup: [code]text[/code]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
     function getType() { return 'protected'; }
     function getPType() { return 'block'; }
     function getSort() { return 105; }

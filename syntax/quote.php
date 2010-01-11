@@ -16,27 +16,12 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_quote extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode Quote Plugin',
-            'desc'   => 'allows BBCode markup: [quote="*"]text[/quote]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
     function getType() { return 'container'; }
     function getPType() { return 'block'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled', 'protected'); }   
     function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addEntryPattern('\[quote.*?\](?=.*?\x5B/quote\x5D)',$mode,'plugin_bbcode_quote'); }
     function postConnect() { $this->Lexer->addExitPattern('\[/quote\]','plugin_bbcode_quote'); }
- 
  
     /**
      * Handle the match

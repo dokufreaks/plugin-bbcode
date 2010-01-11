@@ -16,20 +16,6 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_bold extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode Bold Plugin',
-            'desc'   => 'allows BBCode markup: [b]text[/b]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
     function getType() { return 'formatting'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }   
     function getSort() { return 105; }

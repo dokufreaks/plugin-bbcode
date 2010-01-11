@@ -16,24 +16,9 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_email extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode E-Mail Plugin',
-            'desc'   => 'allows BBCode markup: [email]address[/email]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
     function getType() { return 'substition'; }
     function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addSpecialPattern('\[email.+?\[/email\]',$mode,'plugin_bbcode_email'); }
- 
  
     /**
      * Handle the match

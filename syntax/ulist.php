@@ -16,44 +16,12 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_ulist extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo(){
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode Unordered List Plugin',
-            'desc'   => 'allows BBCode markup: [list][*]item[*]item[/list]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
-    function getType(){
-        return 'container';
-    }
-    
-    function getPType(){
-        return 'block';
-    }
-    
-    function getAllowedTypes() {
-        return array('formatting', 'substition', 'disabled', 'protected');
-    }
-    
-    function getSort(){
-        return 105;
-    }
-    
-    function connectTo($mode) {
-        $this->Lexer->addEntryPattern('\[list\]\s*?\[\*\](?=.*?\x5B/list\x5D)', $mode, 'plugin_bbcode_ulist');
-    }
-    
-    function postConnect() {
-        $this->Lexer->addExitPattern('\[/list\]', 'plugin_bbcode_ulist');
-    }
- 
+    function getType() { return 'container'; }
+    function getPType() { return 'block'; }
+    function getAllowedTypes() { return array('formatting', 'substition', 'disabled', 'protected'); }
+    function getSort() { return 105; }
+    function connectTo($mode) { $this->Lexer->addEntryPattern('\[list\]\s*?\[\*\](?=.*?\x5B/list\x5D)', $mode, 'plugin_bbcode_ulist'); }
+    function postConnect() { $this->Lexer->addExitPattern('\[/list\]', 'plugin_bbcode_ulist'); }
  
     /**
      * Handle the match

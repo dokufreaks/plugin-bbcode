@@ -16,26 +16,11 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode Size Plugin',
-            'desc'   => 'allows BBCode markup: [size=*]text[/size]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
     function getType() { return 'formatting'; }
     function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }   
     function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addEntryPattern('\[size=.*?\](?=.*?\x5B/size\x5D)',$mode,'plugin_bbcode_size'); }
     function postConnect() { $this->Lexer->addExitPattern('\[/size\]','plugin_bbcode_size'); }
- 
  
     /**
      * Handle the match

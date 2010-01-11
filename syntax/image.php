@@ -16,24 +16,9 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_bbcode_image extends DokuWiki_Syntax_Plugin {
  
-    /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-            'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-            'email'  => 'dokuwiki@chimeric.de',
-            'date'   => @file_get_contents(DOKU_PLUGIN.'bbcode/VERSION'),
-            'name'   => 'BBCode Image Plugin',
-            'desc'   => 'allows BBCode markup: [img]url[/img]',
-            'url'    => 'http://wiki.splitbrain.org/plugin:bbcode',
-        );
-    }
- 
     function getType() { return 'substition'; }
     function getSort() { return 105; }
     function connectTo($mode) { $this->Lexer->addSpecialPattern('\[img.+?\[/img\]',$mode,'plugin_bbcode_image'); }
- 
  
     /**
      * Handle the match
