@@ -4,6 +4,7 @@
  * 
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <esther@kaffeehaus.ch>
+ * @author     Luis Machuca Bezzaza <luis.machuca@gulix.cl>
  */
  
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
@@ -29,7 +30,9 @@ class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
         switch ($state) {
           case DOKU_LEXER_ENTER :
             $match = substr($match, 6, -1);
-            if (preg_match('/^\d+$/',$match)) $match .= 'px';
+            if (preg_match('/".+?"/',$match)) $match = substr($match, 1, -1); // addition #1: unquote
+            if (preg_match('/^[0-6]$/',$match)) $match = self::_relsz(intval($match) ); // addition #2: relative size number
+            else if (preg_match('/^\d+$/',$match)) $match .= 'px';
             return array($state, $match);
  
           case DOKU_LEXER_UNMATCHED :
@@ -66,5 +69,36 @@ class syntax_plugin_bbcode_size extends DokuWiki_Syntax_Plugin {
         }
         return false;
     }
+
+    /**
+    * @fn      _relsz
+    * @brief   Returns a relative-size CSS keyword based on numbering.
+    * @author Luis Machuca Bezzaza <luis.machuca@gulix.cl>
+    *
+    * Provides a mapping to the series of size-related keywords in CSS 2.1
+    * (http://www.w3.org/TR/REC-CSS1/#font-size)
+    * Valid values are [0-6], with 3 for "medium" (as recommended by standard)
+    */
+    private function _relsz ($value) {
+        switch ($value) {
+          case 0:
+            return 'xx-small'; break;
+          case 1:
+            return 'x-small'; break;
+          case 2:
+            return 'small'; break;
+          case 4:
+            return 'large'; break;
+          case 5:
+            return 'x-large'; break;
+          case 6:
+            return 'xx-large'; break;
+          case 3:
+            return 'medium'; break;
+          default:
+            return false; break;
+        }
+    }
+
 }
 // vim:ts=4:sw=4:et:enc=utf-8:     
