@@ -53,7 +53,7 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
             switch ($state) {
               case DOKU_LEXER_ENTER :      
                 if ($match = $this->_isValid($match)  || 
-                   ($match = $this->_getBrowserColor($match) ) 
+                   ($match = $this->_getBrowserColor($match) ) ) 
                     $renderer->doc .= '<span style="color:'. $match. '">'; // addition #2: SVG browser colors
                 else $renderer->doc .= '<span>';
                 break;
