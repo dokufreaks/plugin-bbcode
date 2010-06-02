@@ -25,6 +25,7 @@ class syntax_plugin_bbcode_link extends DokuWiki_Syntax_Plugin {
      */
     function handle($match, $state, $pos, &$handler) {
         $match = substr($match, 5, -6);
+        if (preg_match('/".+?"/',$match)) $match = substr($match, 1, -1); // addition #1: unquote
         $match = preg_split('/\]/u',$match,2);
         if ( !isset($match[0]) ) {
             $url   = $match[1];
