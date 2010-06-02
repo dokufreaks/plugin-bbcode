@@ -5,12 +5,13 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <esther@kaffeehaus.ch>
  * @author     Christopher Smith <chris@jalakai.co.uk>
+ * @author     Luis Machuca Bezzaza <luis.machuca@gulix.cl>
  */
  
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
- 
+
 /**
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
@@ -30,6 +31,7 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
         switch ($state) {
           case DOKU_LEXER_ENTER :
             $match = substr($match, 7, -1);
+            if (preg_match('/".+?"/',$match)) $match = substr($match, 1, -1); // addition #1: unquote
             return array($state, $match);
  
           case DOKU_LEXER_UNMATCHED :
@@ -50,7 +52,9 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
             list($state, $match) = $data;
             switch ($state) {
               case DOKU_LEXER_ENTER :      
-                if ($match = $this->_isValid($match)) $renderer->doc .= '<span style="color:'.$match.'">';
+                if ($match = $this->_isValid($match)  || 
+                   ($match = $this->_getBrowserColor($match) ) 
+                    $renderer->doc .= '<span style="color:'. $match. '">'; // addition #2: SVG browser colors
                 else $renderer->doc .= '<span>';
                 break;
                 
@@ -84,5 +88,15 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
         
         return "";
     }
+
+    // request browser color $c
+    // this validates against accepted "SVG colors" implemented by most browsers,
+    // but will convert the values back to #rrggbb instead of using them directly,
+    // thus ensuring visual consistency among clients
+    function _getBrowserColor($c) {
+        require_once(DOKU_PLUGIN.'bbcode/colors.php');
+        return lcase(self::$browsercolors ($c));
+    }
+
 }
 // vim:ts=4:sw=4:et:enc=utf-8:     
