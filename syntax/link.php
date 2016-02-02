@@ -23,7 +23,7 @@ class syntax_plugin_bbcode_link extends DokuWiki_Syntax_Plugin {
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         $match = substr($match, 5, -6);
         if (preg_match('/".+?"/',$match)) $match = substr($match, 1, -1); // addition #1: unquote
         $match = preg_split('/\]/u',$match,2);
@@ -53,7 +53,7 @@ class syntax_plugin_bbcode_link extends DokuWiki_Syntax_Plugin {
     /**
      * Create output
      */
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         return true;
     }
 }
