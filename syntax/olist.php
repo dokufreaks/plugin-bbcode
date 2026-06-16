@@ -11,41 +11,45 @@ use dokuwiki\Parsing\Handler;
  */
 class syntax_plugin_bbcode_olist extends SyntaxPlugin
 {
+    /** @inheritdoc */
     public function getType()
     {
         return 'container';
     }
+    /** @inheritdoc */
     public function getPType()
     {
         return 'block';
     }
+    /** @inheritdoc */
     public function getAllowedTypes()
     {
         return ['formatting', 'substition', 'disabled', 'protected'];
     }
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addEntryPattern('\[list=.*?\]\s*?\[\*\](?=.*?\x5B/list\x5D)', $mode, 'plugin_bbcode_olist');
     }
+    /** @inheritdoc */
     public function postConnect()
     {
         $this->Lexer->addExitPattern('\[/list\]', 'plugin_bbcode_olist');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         switch ($state) {
             case DOKU_LEXER_ENTER:
               // get the list type
                 $match = substr($match, 6, -4);
-                $match = preg_split('/\]/u', $match, 2);
+                $match = explode(']', $match, 2);
                 return [$state, $match[0]];
 
             case DOKU_LEXER_UNMATCHED:
@@ -57,12 +61,10 @@ class syntax_plugin_bbcode_olist extends SyntaxPlugin
         return [];
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
-        if ($mode == 'xhtml') {
+        if ($format == 'xhtml') {
             [$state, $match] = $data;
             switch ($state) {
                 case DOKU_LEXER_ENTER:

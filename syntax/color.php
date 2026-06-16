@@ -156,30 +156,33 @@ class syntax_plugin_bbcode_color extends SyntaxPlugin
             'yellowgreen' => '#9acd32' ,
             ];
 
+    /** @inheritdoc */
     public function getType()
     {
         return 'formatting';
     }
+    /** @inheritdoc */
     public function getAllowedTypes()
     {
         return ['formatting', 'substition', 'disabled'];
     }
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addEntryPattern('\[color=.*?\](?=.*?\x5B/color\x5D)', $mode, 'plugin_bbcode_color');
     }
+    /** @inheritdoc */
     public function postConnect()
     {
         $this->Lexer->addExitPattern('\[/color\]', 'plugin_bbcode_color');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         switch ($state) {
@@ -197,12 +200,10 @@ class syntax_plugin_bbcode_color extends SyntaxPlugin
         return [];
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
-        if ($mode == 'xhtml') {
+        if ($format == 'xhtml') {
             [$state, $match] = $data;
             switch ($state) {
                 case DOKU_LEXER_ENTER:
@@ -226,9 +227,15 @@ class syntax_plugin_bbcode_color extends SyntaxPlugin
         return false;
     }
 
-    // validate color value $c
-    // this is cut price validation - only to ensure the basic format is correct and there is nothing harmful
-    // three basic formats  "colorname", "#fff[fff]", "rgb(255[%],255[%],255[%])"
+    /**
+     * validate color value $c
+     *
+     * this is cut price validation - only to ensure the basic format is correct and there is nothing harmful
+     * three basic formats  "colorname", "#fff[fff]", "rgb(255[%],255[%],255[%])"
+     *
+     * @param string $c color value to validate
+     * @return string valid color value or empty string if invalid
+     */
     protected function isValid($c)
     {
         $c = trim($c);
@@ -241,6 +248,6 @@ class syntax_plugin_bbcode_color extends SyntaxPlugin
 
         if (preg_match($pattern, $c)) return $c;
         if (!empty(self::BROWSERCOLORS[$c])) return self::BROWSERCOLORS[$c];
-        return "";
+        return '';
     }
 }

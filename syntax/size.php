@@ -12,30 +12,37 @@ use dokuwiki\Parsing\Handler;
  */
 class syntax_plugin_bbcode_size extends SyntaxPlugin
 {
+    /** @inheritdoc */
     public function getType()
     {
         return 'formatting';
     }
+
+    /** @inheritdoc */
     public function getAllowedTypes()
     {
         return ['formatting', 'substition', 'disabled'];
     }
+
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addEntryPattern('\[size=.*?\](?=.*?\x5B/size\x5D)', $mode, 'plugin_bbcode_size');
     }
+
+    /** @inheritdoc */
     public function postConnect()
     {
         $this->Lexer->addExitPattern('\[/size\]', 'plugin_bbcode_size');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         switch ($state) {
@@ -58,12 +65,10 @@ class syntax_plugin_bbcode_size extends SyntaxPlugin
         return [];
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
-        if ($mode == 'xhtml') {
+        if ($format == 'xhtml') {
             [$state, $match] = $data;
             switch ($state) {
                 case DOKU_LEXER_ENTER:
@@ -83,42 +88,36 @@ class syntax_plugin_bbcode_size extends SyntaxPlugin
         return false;
     }
 
-   /**
-    * Returns a relative-size CSS keyword based on numbering.
-    *
-    * Provides a mapping to the series of size-related keywords in CSS 2.1
-    * (http://www.w3.org/TR/REC-CSS1/#font-size)
-    * Valid values are [0-6], with 3 for "medium" (as recommended by standard)
-    *
-    * @author Luis Machuca Bezzaza <luis.machuca@gulix.cl>
-    */
+    /**
+     * Returns a relative-size CSS keyword based on numbering.
+     *
+     * Provides a mapping to the series of size-related keywords in CSS 2.1
+     * (http://www.w3.org/TR/REC-CSS1/#font-size)
+     * Valid values are [0-6], with 3 for "medium" (as recommended by standard)
+     *
+     * @param int $value The size value as a number (0-6)
+     * @return string|false The corresponding CSS keyword, or false if invalid
+     * @author Luis Machuca Bezzaza <luis.machuca@gulix.cl>
+     */
     protected function relsz($value)
     {
         switch ($value) {
             case 0:
                 return 'xx-small';
-            break;
             case 1:
                 return 'x-small';
-            break;
             case 2:
                 return 'small';
-            break;
             case 4:
                 return 'large';
-            break;
             case 5:
                 return 'x-large';
-            break;
             case 6:
                 return 'xx-large';
-            break;
             case 3:
                 return 'medium';
-            break;
             default:
                 return false;
-            break;
         }
     }
 }

@@ -11,39 +11,40 @@ use dokuwiki\Parsing\Handler;
  */
 class syntax_plugin_bbcode_deleted extends SyntaxPlugin
 {
+    /** @inheritdoc */
     public function getType()
     {
         return 'formatting';
     }
+    /** @inheritdoc */
     public function getAllowedTypes()
     {
         return ['formatting', 'substition', 'disabled'];
     }
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addEntryPattern('\[s\](?=.*?\x5B/s\x5D)', $mode, 'deleted');
     }
+    /** @inheritdoc */
     public function postConnect()
     {
         $this->Lexer->addExitPattern('\[/s\]', 'deleted');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         return [];
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
         return true;
     }

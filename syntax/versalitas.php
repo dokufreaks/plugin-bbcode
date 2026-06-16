@@ -11,30 +11,33 @@ use dokuwiki\Parsing\Handler;
  */
 class syntax_plugin_bbcode_versalitas extends SyntaxPlugin
 {
+    /** @inheritdoc */
     public function getType()
     {
         return 'formatting';
     }
+    /** @inheritdoc */
     public function getAllowedTypes()
     {
         return ['formatting', 'substition', 'disabled'];
     }
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addEntryPattern('\[c\](?=.*?\x5B/c\x5D)', $mode, 'plugin_bbcode_versalitas');
     }
+    /** @inheritdoc */
     public function postConnect()
     {
         $this->Lexer->addExitPattern('\[/c\]', 'plugin_bbcode_versalitas');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         switch ($state) {
@@ -51,12 +54,10 @@ class syntax_plugin_bbcode_versalitas extends SyntaxPlugin
         return [];
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
-        if ($mode == 'xhtml') {
+        if ($format == 'xhtml') {
             [$state, $match] = $data;
             switch ($state) {
                 case DOKU_LEXER_ENTER:

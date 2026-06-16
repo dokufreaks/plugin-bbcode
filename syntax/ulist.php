@@ -11,34 +11,38 @@ use dokuwiki\Parsing\Handler;
  */
 class syntax_plugin_bbcode_ulist extends SyntaxPlugin
 {
+    /** @inheritdoc */
     public function getType()
     {
         return 'container';
     }
+    /** @inheritdoc */
     public function getPType()
     {
         return 'block';
     }
+    /** @inheritdoc */
     public function getAllowedTypes()
     {
         return ['formatting', 'substition', 'disabled', 'protected'];
     }
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addEntryPattern('\[list\]\s*?\[\*\](?=.*?\x5B/list\x5D)', $mode, 'plugin_bbcode_ulist');
     }
+    /** @inheritdoc */
     public function postConnect()
     {
         $this->Lexer->addExitPattern('\[/list\]', 'plugin_bbcode_ulist');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         switch ($state) {
@@ -51,12 +55,10 @@ class syntax_plugin_bbcode_ulist extends SyntaxPlugin
         return [];
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
-        if ($mode == 'xhtml') {
+        if ($format == 'xhtml') {
             [$state, $match] = $data;
             switch ($state) {
                 case DOKU_LEXER_ENTER:

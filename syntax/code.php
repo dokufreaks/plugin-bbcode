@@ -11,39 +11,40 @@ use dokuwiki\Parsing\Handler;
  */
 class syntax_plugin_bbcode_code extends SyntaxPlugin
 {
+    /** @inheritdoc */
     public function getType()
     {
         return 'protected';
     }
+    /** @inheritdoc */
     public function getPType()
     {
         return 'block';
     }
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addEntryPattern('\[code\](?=.*?\x5B/code\x5D)', $mode, 'preformatted');
     }
+    /** @inheritdoc */
     public function postConnect()
     {
         $this->Lexer->addExitPattern('\[/code\]', 'preformatted');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         return true;
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
         return true;
     }

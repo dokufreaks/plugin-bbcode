@@ -11,33 +11,27 @@ use dokuwiki\Parsing\Handler;
  */
 class syntax_plugin_bbcode_image extends SyntaxPlugin
 {
+    /** @inheritdoc */
     public function getType()
     {
         return 'substition';
     }
+    /** @inheritdoc */
     public function getSort()
     {
         return 105;
     }
+    /** @inheritdoc */
     public function connectTo($mode)
     {
         $this->Lexer->addSpecialPattern('\[img.+?\[/img\]', $mode, 'plugin_bbcode_image');
     }
 
-    /**
-     * Handle the match
-     */
+    /** @inheritdoc */
     public function handle($match, $state, $pos, Handler $handler)
     {
         $match = trim(substr($match, 5, -6));
-        $match = preg_split('/\]/u', $match, 2);
-        if (!isset($match[0])) {
-            $url   = $match[1];
-            $title = null;
-        } else {
-            $url   = $match[0];
-            $title = $match[1];
-        }
+        [$url, $title] = sexplode(']', $match, 2, null);
 
         // Check whether this is a local or remote image
         if (preg_match('#^(https?|ftp)#i', $url)) {
@@ -46,14 +40,12 @@ class syntax_plugin_bbcode_image extends SyntaxPlugin
             $call = 'internalmedia';
         }
 
-        $handler->_addCall($call, [$url,$title,null,null,null,'cache'], $pos);
+        $handler->addCall($call, [$url,$title,null,null,null,'cache'], $pos);
         return true;
     }
 
-    /**
-     * Create output
-     */
-    public function render($mode, Doku_Renderer $renderer, $data)
+    /** @inheritdoc */
+    public function render($format, Doku_Renderer $renderer, $data)
     {
         return true;
     }
