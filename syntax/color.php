@@ -1,24 +1,19 @@
 <?php
+
+use dokuwiki\Extension\SyntaxPlugin;
+use dokuwiki\Parsing\Handler;
+
 /**
  * BBCode plugin: allows BBCode markup familiar from forum software
- * 
+ *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <esther@kaffeehaus.ch>
  * @author     Christopher Smith <chris@jalakai.co.uk>
  * @author     Luis Machuca Bezzaza <luis.machuca@gulix.cl>
  */
- 
-if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'syntax.php');
-
-/**
- * All DokuWiki plugins to extend the parser/rendering mechanism
- * need to inherit from this class
- */
-class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
-
-    static $browsercolors = array (
+class syntax_plugin_bbcode_color extends SyntaxPlugin
+{
+    protected const BROWSERCOLORS =  [
             'aliceblue' => '#f0f8ff' ,
             'antiquewhite' => '#faebd7' ,
             'aqua' => '#00ffff' ,
@@ -159,78 +154,93 @@ class syntax_plugin_bbcode_color extends DokuWiki_Syntax_Plugin {
             'whitesmoke' => '#f5f5f5' ,
             'yellow' => '#ffff00' ,
             'yellowgreen' => '#9acd32' ,
-            );
- 
-    function getType() { return 'formatting'; }
-    function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }   
-    function getSort() { return 105; }
-    function connectTo($mode) { $this->Lexer->addEntryPattern('\[color=.*?\](?=.*?\x5B/color\x5D)',$mode,'plugin_bbcode_color'); }
-    function postConnect() { $this->Lexer->addExitPattern('\[/color\]','plugin_bbcode_color'); }
- 
+            ];
+
+    public function getType()
+    {
+        return 'formatting';
+    }
+    public function getAllowedTypes()
+    {
+        return ['formatting', 'substition', 'disabled'];
+    }
+    public function getSort()
+    {
+        return 105;
+    }
+    public function connectTo($mode)
+    {
+        $this->Lexer->addEntryPattern('\[color=.*?\](?=.*?\x5B/color\x5D)', $mode, 'plugin_bbcode_color');
+    }
+    public function postConnect()
+    {
+        $this->Lexer->addExitPattern('\[/color\]', 'plugin_bbcode_color');
+    }
+
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, Doku_Handler $handler) {
+    public function handle($match, $state, $pos, Handler $handler)
+    {
         switch ($state) {
-          case DOKU_LEXER_ENTER :
-            $match = substr($match, 7, -1);
-            if (preg_match('/".+?"/',$match)) $match = substr($match, 1, -1); // addition #1: unquote
-            return array($state, $match);
- 
-          case DOKU_LEXER_UNMATCHED :
-            return array($state, $match);
-            
-          case DOKU_LEXER_EXIT :
-            return array($state, '');
-            
+            case DOKU_LEXER_ENTER:
+                $match = substr($match, 7, -1);
+                if (preg_match('/".+?"/', $match)) $match = substr($match, 1, -1); // addition #1: unquote
+                return [$state, $match];
+
+            case DOKU_LEXER_UNMATCHED:
+                return [$state, $match];
+
+            case DOKU_LEXER_EXIT:
+                return [$state, ''];
         }
-        return array();
+        return [];
     }
- 
+
     /**
      * Create output
      */
-    function render($mode, Doku_Renderer $renderer, $data) {
-        if($mode == 'xhtml') {
-            list($state, $match) = $data;
+    public function render($mode, Doku_Renderer $renderer, $data)
+    {
+        if ($mode == 'xhtml') {
+            [$state, $match] = $data;
             switch ($state) {
-              case DOKU_LEXER_ENTER :      
-                if ($match = $this->_isValid($match)) {
-                    $renderer->doc .= '<span style="color:'. $match. '">'; // addition #2: SVG browser colors
-                } else {
-                    $renderer->doc .= '<span>';
-                }
-                break;
-                
-              case DOKU_LEXER_UNMATCHED :
-                $renderer->doc .= $renderer->_xmlEntities($match);
-                break;
-                
-              case DOKU_LEXER_EXIT :
-                $renderer->doc .= '</span>';
-                break;
-                
+                case DOKU_LEXER_ENTER:
+                    if ($match = $this->isValid($match)) {
+                        $renderer->doc .= '<span style="color:' . $match . '">'; // addition #2: SVG browser colors
+                    } else {
+                        $renderer->doc .= '<span>';
+                    }
+                    break;
+
+                case DOKU_LEXER_UNMATCHED:
+                    $renderer->doc .= $renderer->_xmlEntities($match);
+                    break;
+
+                case DOKU_LEXER_EXIT:
+                    $renderer->doc .= '</span>';
+                    break;
             }
             return true;
         }
         return false;
     }
-    
+
     // validate color value $c
     // this is cut price validation - only to ensure the basic format is correct and there is nothing harmful
     // three basic formats  "colorname", "#fff[fff]", "rgb(255[%],255[%],255[%])"
-    function _isValid($c) {
+    protected function isValid($c)
+    {
         $c = trim($c);
-        
+
         $pattern = "/
             ([a-zA-z]+)|                                #colorname - not verified
             (\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}))|        #colorvalue
             (rgb\(([0-9]{1,3}%?,){2}[0-9]{1,3}%?\))     #rgb triplet
             /x";
-        
+
         if (preg_match($pattern, $c)) return $c;
-        if (!empty($this->browsercolors[$c])) return $this->browsercolors[$c]; 
+        if (!empty(self::BROWSERCOLORS[$c])) return self::BROWSERCOLORS[$c];
         return "";
     }
 }
-// vim:ts=4:sw=4:et:enc=utf-8:     
