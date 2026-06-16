@@ -66,7 +66,9 @@ class syntax_plugin_bbcode_quote extends SyntaxPlugin
             [$state, $match] = $data;
             switch ($state) {
                 case DOKU_LEXER_ENTER:
-                    if ($match !== '') $renderer->doc .= '<p><sub>' . $match . ':</sub></p>';
+                    if ($match !== '') {
+                        $renderer->doc .= '<p><sub>' . $renderer->_xmlEntities($match) . ':</sub></p>';
+                    }
                     $renderer->doc .= '<blockquote>';
                     break;
 

@@ -188,7 +188,7 @@ class syntax_plugin_bbcode_color extends SyntaxPlugin
         switch ($state) {
             case DOKU_LEXER_ENTER:
                 $match = substr($match, 7, -1);
-                if (preg_match('/".+?"/', $match)) $match = substr($match, 1, -1); // addition #1: unquote
+                if (preg_match('/".+?"/', $match)) $match = substr($match, 1, -1);
                 return [$state, $match];
 
             case DOKU_LEXER_UNMATCHED:
@@ -208,7 +208,7 @@ class syntax_plugin_bbcode_color extends SyntaxPlugin
             switch ($state) {
                 case DOKU_LEXER_ENTER:
                     if ($match = $this->isValid($match)) {
-                        $renderer->doc .= '<span style="color:' . $match . '">'; // addition #2: SVG browser colors
+                        $renderer->doc .= '<span style="color:' . $renderer->_xmlEntities($match) . '">';
                     } else {
                         $renderer->doc .= '<span>';
                     }
@@ -240,11 +240,11 @@ class syntax_plugin_bbcode_color extends SyntaxPlugin
     {
         $c = trim($c);
 
-        $pattern = "/
-            ([a-zA-z]+)|                                #colorname - not verified
+        $pattern = "/^(
+            ([a-zA-Z]+)|                                #colorname - not verified
             (\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}))|        #colorvalue
             (rgb\(([0-9]{1,3}%?,){2}[0-9]{1,3}%?\))     #rgb triplet
-            /x";
+            )$/xD";
 
         if (preg_match($pattern, $c)) return $c;
         if (!empty(self::BROWSERCOLORS[$c])) return self::BROWSERCOLORS[$c];
