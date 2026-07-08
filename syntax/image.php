@@ -1,7 +1,6 @@
 <?php
 
 use dokuwiki\Extension\SyntaxPlugin;
-use dokuwiki\Parsing\Handler;
 
 /**
  * BBCode plugin: allows BBCode markup familiar from forum software
@@ -28,7 +27,7 @@ class syntax_plugin_bbcode_image extends SyntaxPlugin
     }
 
     /** @inheritdoc */
-    public function handle($match, $state, $pos, Handler $handler)
+    public function handle($match, $state, $pos, Doku_Handler $handler)
     {
         $match = trim(substr($match, 5, -6));
         [$url, $title] = sexplode(']', $match, 2, null);
